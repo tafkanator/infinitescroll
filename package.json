@@ -1,0 +1,31 @@
+{
+  "name": "infiniteScroll",
+  "version": "0.0.0",
+  "description": "0.0.1",
+  "main": "dist/index.html",
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  },
+  "dependencies": {
+    "gulp": "^3.8.10",
+    "gulp-browserify": "^0.5.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.10",
+    "gulp-browserify": "^0.5.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tafkanator/infinitescroll.git"
+  },
+  "author": "Taavi Sangel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tafkanator/infinitescroll/issues"
+  },
+  "homepage": "https://github.com/tafkanator/infinitescroll"
+}
