@@ -1,5 +1,3 @@
 module.exports = {
-	init: function() {
-		console.log('hello world')
-	}
+	version: '0.0.1'
 };

@@ -3,7 +3,6 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-
 	<title>Infinite scroll</title>
 	<meta name="description" content="Infinite scroll demos">
 	<meta name="author" content="Taavi Sangel">
@@ -12,6 +11,19 @@
 </head>
 
 <body>
+
+<div id="demo-scroll"><!--dynamic content here--></div>
+
+
+<script type="template" id="wrap-template">
+	<div class="infinite-scroll">
+		<div class="infinite-scroll-track">
+			{{items}}
+		</div>
+	</div>
+</script>
+
 <script src="../dist/main.js"></script>
+
 </body>
 </html>
