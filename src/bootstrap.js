@@ -1,27 +1,42 @@
 var htmlParser = require('./htmlParser');
 
 module.exports = {
+	data: null,
 	dom: {
-		container: null,
-		wrapper: null,
+		wrapperTemplate: undefined,
+		itemTemplate: undefined,
+		container: undefined,
+		wrapper: undefined,
 		items: []
 	},
 
 	init: function(config) {
-		//create and render DOM
+		// fill in basic information
+		this.data = config.data;
 		this.dom.container = document.querySelector('#' + config.containerId);
+		this.dom.wrapperTemplate = document.querySelector('#wrap-template').innerHTML;
+		this.dom.itemTemplate = document.querySelector('#item-template').innerHTML;
 
-		this.createWrapperDom(document.querySelector('#wrap-template').innerHTML);
-		//this.createWrapperDom(config.template.wrapper);
+		this.dom.wrapperTemplate = this.dom.wrapperTemplate.trim();
+		this.dom.itemTemplate = this.dom.itemTemplate.trim();
 
+		// generate HTML
+		this.createAllItemsHTML();
+		this.createWrapperHTML();
+
+		// add all generated HTML to browser DOM
 		this.dom.container.innerHTML = this.dom.wrapper;
-
-
 	},
 
-	createWrapperDom: function(template) {
-		this.dom.wrapper = htmlParser.parse(template, [
-			{items: 'tere'}
-		]);
+	createWrapperHTML: function() {
+		this.dom.wrapper = htmlParser.parse(this.dom.wrapperTemplate, {items: this.dom.items.join('')});
+	},
+
+	createAllItemsHTML: function() {
+		this.data.forEach(function(item) {
+			this.dom.items.push(
+				htmlParser.parse(this.dom.itemTemplate, item)
+			)
+		}.bind(this));
 	}
 };

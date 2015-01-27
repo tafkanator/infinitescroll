@@ -13,12 +13,24 @@
 <body>
 
 <div id="demo-scroll"><!--dynamic content here--></div>
+<div id="demo-scroll-controls">
+	<button type="button" id="demo-scroll-back">&lt;-</button>
+	<button type="button" id="demo-scroll-forward">-&gt;</button>
+</div>
 
 
 <script type="template" id="wrap-template">
 	<div class="infinite-scroll">
 		<div class="infinite-scroll-track">
 			{{items}}
+		</div>
+	</div>
+</script>
+
+<script type="template" id="item-template">
+	<div class="infinite-scroll-item-wrap">
+		<div class="infinite-scroll-item">
+			<h4>{{title}}</h4>
 		</div>
 	</div>
 </script>
