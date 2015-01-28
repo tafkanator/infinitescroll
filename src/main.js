@@ -5,7 +5,8 @@ var infiniteScroll = require('./bootstrap');
 document.addEventListener("DOMContentLoaded", function() {
 	infiniteScroll.init({
 		data: generateDummyData(),
-		containerId: 'demo-scroll'
+		containerId: 'demo-scroll',
+		itemsPerPage: 4
 	});
 });
 
