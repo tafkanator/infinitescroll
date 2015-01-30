@@ -15,7 +15,7 @@ module.exports = {
 		itemCount: 0,
 		windowWidth: 0,
 		containerWidth: 0,
-		trackWidth: 0,
+		trackWidthPercent: 0,
 		itemWithPercent: 0
 	},
 
@@ -26,7 +26,7 @@ module.exports = {
 		this.dimensions.itemsPerPage = config.itemsPerPage;
 
 		// fill in DOM info
-		this.dom.wrapperTemplate = document.querySelector('#wrap-template').innerHTML,
+		this.dom.wrapperTemplate = document.querySelector('#wrap-template').innerHTML;
 		this.dom.itemTemplate = document.querySelector('#item-template').innerHTML;
 		this.dom.itemTemplate = this.dom.itemTemplate.trim();
 		this.dom.container = document.querySelector('#' + config.containerId);
@@ -35,7 +35,7 @@ module.exports = {
 		this.dimensions.windowWidth = window.innerWidth;
 		this.dimensions.containerWidth = this.dom.container.offsetWidth;
 
-		this.dimensions.trackWidth = this.calculateTrackWith(
+		this.dimensions.trackWidthPercent = this.calculateTrackWithPercent(
 			this.dimensions.containerWidth,
 			this.dimensions.itemCount,
 			this.dimensions.itemsPerPage
@@ -57,7 +57,7 @@ module.exports = {
 	createWrapperHTML: function() {
 		this.dom.wrapper = htmlParser.parse(this.dom.wrapperTemplate, {
 			items: this.dom.items.join(''),
-			trackStyles: 'width:' + this.dimensions.trackWidth + 'px;'
+			trackStyles: 'width:' + this.dimensions.trackWidthPercent + '%;'
 		});
 	},
 
@@ -71,10 +71,13 @@ module.exports = {
 		}.bind(this));
 	},
 
-	calculateTrackWith: function(containerWidth, itemCount, itemsPerPage) {
-		var singleItemWidth = this.calculateSingleItemWidthPx(containerWidth, itemsPerPage);
+	calculateTrackWithPercent: function(containerWidth, itemCount, itemsPerPage) {
+		var singleItemWidth = this.calculateSingleItemWidthPx(containerWidth, itemsPerPage),
+			trackWidthPx = singleItemWidth * itemCount,
+			trackWidthPercent = trackWidthPx * 100 /  this.dimensions.containerWidth;
 
-		return Math.round(singleItemWidth * itemCount);
+		return Math.round(trackWidthPercent * 1000) / 1000;
+
 	},
 
 	calculateSingleItemWidthPx: function(containerWidth, itemsPerPage) {

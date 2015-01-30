@@ -15,7 +15,7 @@ function generateDummyData() {
 
 	for ( ; i < 100; i++) {
 		data.push({
-			title: 'test ' + i
+			title: 'test ' + (i + 1)
 		})
 	}
 
