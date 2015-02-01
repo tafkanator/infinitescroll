@@ -6,7 +6,11 @@ document.addEventListener("DOMContentLoaded", function() {
 	infiniteScroll.init({
 		data: generateDummyData(),
 		containerId: 'demo-scroll',
-		itemsPerPage: 4
+		itemsPerPage: 4,
+		buttons: {
+			forwardsId: 'demo-scroll-forward',
+			backwardsId: 'demo-scroll-back'
+		}
 	});
 });
 
