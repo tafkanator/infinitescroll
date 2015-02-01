@@ -15,8 +15,8 @@ module.exports = {
 	dimensions: {
 		itemsPerPage: 0,
 		itemCount: 0,
-		windowWidth: 0,
 		containerWidth: 0,
+		trackWidth: 0,
 		trackWidthPercent: 0,
 		itemWithPercent: 0
 	},
@@ -43,7 +43,6 @@ module.exports = {
 		this.dom.forwardsButton.addEventListener('click', this.moveForward.bind(this));
 
 		// calculate dimensions
-		this.dimensions.windowWidth = window.innerWidth;
 		this.dimensions.containerWidth = this.dom.container.offsetWidth;
 
 		this.dimensions.trackWidthPercent = this.calculateTrackWithPercent(
@@ -61,6 +60,7 @@ module.exports = {
 		// add all generated HTML to browser DOM
 		this.dom.container.innerHTML = this.dom.wrapper;
 		this.dom.track = this.dom.container.querySelector('.infinite-scroll-track');
+		this.dom.wrapper = this.dom.container.querySelector('.infinite-scroll');
 
 	},
 
@@ -81,16 +81,27 @@ module.exports = {
 		}.bind(this));
 	},
 
+
 	calculateTrackWithPercent: function(containerWidth, itemCount, itemsPerPage) {
 		var singleItemWidth = this.calculateSingleItemWidthPx(containerWidth, itemsPerPage),
 			trackWidthPx = singleItemWidth * itemCount,
 			trackWidthPercent = trackWidthPx * 100 /  this.dimensions.containerWidth;
+
+		this.dimensions.trackWidth = trackWidthPx;
 
 		return Math.round(trackWidthPercent * 1000) / 1000;
 
 	},
 
 	calculateSingleItemWidthPx: function(containerWidth, itemsPerPage) {
+		if (typeof containerWidth !== 'number') {
+			containerWidth = this.dimensions.containerWidth
+		}
+
+		if (typeof itemsPerPage !== 'number') {
+			itemsPerPage = this.dimensions.itemsPerPage;
+		}
+
 		return containerWidth / itemsPerPage;
 	},
 
@@ -99,7 +110,7 @@ module.exports = {
 	},
 
 	moveBackward: function() {
-		var newPosition = Math.max(0, this.scrollPosition - this.dimensions.itemWithPercent);
+		var newPosition = Math.max(0, this.scrollPosition - this.calculateSingleItemWidthPx());
 
 		if (newPosition !== this.scrollPosition) {
 			this.scrollToPosition(newPosition, 0);
@@ -109,8 +120,8 @@ module.exports = {
 	},
 
 	moveForward: function() {
-		var maxPosition = 100 - (this.dimensions.itemWithPercent * this.dimensions.itemsPerPage),
-			newPosition = Math.min(maxPosition, this.scrollPosition + this.dimensions.itemWithPercent);
+		var maxPosition = this.dimensions.trackWidth - (this.calculateSingleItemWidthPx() * this.dimensions.itemsPerPage),
+			newPosition = Math.min(maxPosition, this.scrollPosition + this.calculateSingleItemWidthPx());
 
 		if (newPosition !== this.scrollPosition) {
 			this.scrollToPosition(newPosition, 0);
@@ -120,7 +131,12 @@ module.exports = {
 	},
 
 	scrollToPosition: function(x, y) {
-		this.cssTransformToPosition(x, y);
+		//this.cssTransformToPosition(x, y);
+		this.nativeScrollToPosition(x, y);
+	},
+
+	nativeScrollToPosition: function(x, y) {
+		this.dom.wrapper.scrollLeft  = x;
 	},
 
 	cssTransformToPosition: function(x, y) {
