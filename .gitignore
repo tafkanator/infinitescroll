@@ -1,2 +1,5 @@
-/.idea
-/node_modules
+.idea/
+build/
+node_modules/
+npm-debug.log
+config/developer.js

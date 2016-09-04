@@ -1,0 +1,9 @@
+.infinite-scroll {
+	overflow: hidden;
+	overflow-x: scroll;
+	white-space: nowrap;
+
+	> .slide {
+		background: red;
+	}
+}
