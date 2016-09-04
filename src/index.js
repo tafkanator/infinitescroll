@@ -1,14 +1,23 @@
+/* eslint-disable no-console */
+
 import './gfx/main.scss';
 import InfiniteScroll from './InfiniteScroll';
 
-const slideDom = document.createElement('div');
-slideDom.classList.add('slide');
-slideDom.innerHtml = 'slide';
+let counter = 0;
+
+function createRandomSlide() {
+	const slideDom = document.createElement('div');
+	slideDom.classList.add('slide');
+	slideDom.innerHTML = `Slide #${counter++}`;
+
+	return slideDom;
+}
 
 const slider1 = new InfiniteScroll({
 	node: document.querySelector('#slider-1'),
-	slides: [slideDom, slideDom, slideDom, slideDom, slideDom, slideDom, slideDom],
+	slides: Array.from(Array(20)).map(createRandomSlide),
+	visible: 4,
+	active: 5,
 });
 
-console.log(slider1);
-console.log('tere');
+console.log('slider 1', slider1);

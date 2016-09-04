@@ -1,9 +1,13 @@
-.infinite-scroll {
+.InfiniteScroll {
+	position: relative;
 	overflow: hidden;
 	overflow-x: scroll;
-	white-space: nowrap;
 
-	> .slide {
-		background: red;
+	> .infiniteScrollTrack {
+		> .infiniteScrollSlide {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+		}
 	}
 }
