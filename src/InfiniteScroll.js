@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
 
+import Pointer from './Pointer';
+
 export default class InfiniteScroll {
 
 	constructor(props) {
@@ -21,6 +23,7 @@ export default class InfiniteScroll {
 		// calculated vars
 		this.trackNode = this.createTrackNode();
 		this.slideWidth = Math.round(100 / this.visibleSlides * 100) / 100; // pct
+		this.trackTransform = 0;
 
 		this.setupDom();
 
@@ -45,10 +48,32 @@ export default class InfiniteScroll {
 	}
 
 	setupDom() {
+		// add info to track node
 		this.getRenderedSlideNodes().forEach((node) => {
 			this.trackNode.appendChild(node);
 		});
 
+		this.moveTrack(this.trackTransform);
+
+		// add event listeners to track node
+		const trackPointer = new Pointer(this.trackNode);
+
+		trackPointer.onDown(() => {
+			this.trackNode.classList.add('isMoving');
+		});
+
+		trackPointer.onMove((x) => {
+			console.log('on track move', x);
+				this.moveTrack(x);
+		});
+
+		trackPointer.onUp((x) => {
+			this.trackTransform = this.trackTransform + x;
+			this.trackNode.classList.remove('isMoving');
+			console.log('is up', x)
+		});
+
+		// add prepared track to DOM
 		this.wrapNode.appendChild(this.trackNode);
 	}
 
@@ -65,5 +90,9 @@ export default class InfiniteScroll {
 		slideNode.appendChild(content);
 
 		return slideNode;
+	}
+
+	moveTrack(newPosition) {
+		this.trackNode.style.transform = `translateX(${this.trackTransform + newPosition}px)`;
 	}
 }

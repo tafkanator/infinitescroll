@@ -1,9 +1,17 @@
 .InfiniteScroll {
 	position: relative;
 	overflow: hidden;
-	overflow-x: scroll;
+	// overflow-x: scroll;
 
 	> .infiniteScrollTrack {
+		height: 100%;
+		-webkit-user-select: none;
+		        user-select: none;
+
+		&.isMoving {
+			will-change: transform;
+		}
+
 		> .infiniteScrollSlide {
 			position: absolute;
 			top: 0;
